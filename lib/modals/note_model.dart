@@ -1,4 +1,4 @@
-class NoteModel
+class NoteModel 
 {
   final String title;
   final String subTitle;
