@@ -4,20 +4,27 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:notes_app/constants.dart';
 import 'package:notes_app/cubits/features/add_note_cubit/presentation/cubit/add_note_cubit.dart';
 import 'package:notes_app/modals/note_model.dart';
+import 'package:notes_app/simple_bloc_observer.dart';
 import 'package:notes_app/views/notes_view.dart';
-
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 void main()  async{
-
+  WidgetsFlutterBinding.ensureInitialized();
+  await initialServices();
+  await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   await Hive.initFlutter();
+  Bloc.observer = SimpleBlocObserver();
   await Hive.openBox(kNotesBox);
   Hive.registerAdapter(NoteModelAdapter());
   runApp(const NotesApp());
 }
 
+
 class NotesApp extends StatelessWidget {
   const NotesApp({super.key});
 
   @override
+
+  
   Widget build(BuildContext context) {
     return  MultiBlocProvider(
       providers: [
@@ -33,4 +40,9 @@ class NotesApp extends StatelessWidget {
       ),
     );
   }
+}
+
+
+initialServices() async {
+  await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
 }
