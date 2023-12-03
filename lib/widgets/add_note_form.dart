@@ -16,9 +16,10 @@ class AddNoteForm extends StatefulWidget {
 }
 
 class _AddNoteFormState extends State<AddNoteForm> {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String? title, subTitle;
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -44,19 +45,25 @@ class _AddNoteFormState extends State<AddNoteForm> {
               maxLines: 5,
               ),
             const SizedBox(height: 100,),
-              CustomButton(
-                onTap: (){
-                  if(formKey.currentState!.validate()){
-                    formKey.currentState!.save();
-                    var noteModel = NoteModel(title: title!, subTitle: subTitle!, date: DateTime.now().toString(), color: Colors.blue.value);
-                    BlocProvider.of<AddNoteCubit>(context).addNote(noteModel);
-                  } else{
-                    autovalidateMode = AutovalidateMode.always;
-                    setState(() {
-                      
-                    });
-                  }
-                },
+              BlocBuilder<AddNoteCubit, AddNotesState>(
+                builder: (context, state){
+                  return  CustomButton(
+                    isLoading: state is AddNotesLoading ? true : false,
+                  onTap: (){
+                    if(formKey.currentState!.validate()){
+                      formKey.currentState!.save();
+                      var noteModel = NoteModel(title: title!, subTitle: subTitle!, date: DateTime.now().toString(), color: Colors.blue.value);
+                      BlocProvider.of<AddNoteCubit>(context).addNote(noteModel);
+                    } else{
+                      autovalidateMode = AutovalidateMode.always;
+                      setState(() {
+                        
+                      });
+                    }
+                  },
+                );
+                }
+
               ),
           const SizedBox(height: 30,),
           ],
