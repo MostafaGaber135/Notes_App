@@ -13,7 +13,9 @@ class CustomNoteItem extends StatelessWidget {
       onTap: (){
         Navigator.push(context,MaterialPageRoute(builder: (context)
         {
-          return const EditNoteView();
+          return EditNoteView(
+            note: note,
+          );
         }
         ),
         );
@@ -30,7 +32,7 @@ class CustomNoteItem extends StatelessWidget {
             ListTile(
               title:  Text(
                 note.title,
-               style: TextStyle(
+                style: const TextStyle(
                 color: Colors.black,
                 fontSize: 26,
                 ),
