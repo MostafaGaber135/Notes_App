@@ -13,8 +13,7 @@ return  BlocProvider(
   child: BlocConsumer<AddNoteCubit, AddNotesState> (
     listener: (context, state) {
       if(state is AddNotesFailure ){
-
-    }  
+    }
       if(state is AddNotesSuccess){
         BlocProvider.of<NotesCubit>(context).fetchAllNotes();
         Navigator.pop(context);
@@ -26,15 +25,14 @@ return  BlocProvider(
         child: Padding(
           padding:  EdgeInsets.only(left: 16, right: 16,
           bottom: MediaQuery.of(context).viewInsets.bottom
-          ),
-          
-          child: const SingleChildScrollView(
+      ),
+            child: const SingleChildScrollView(
             child: AddNoteForm()
+              ),
             ),
-        ),
-      );
-    }
-  ),
-);
+          );
+        }
+      ),
+    );
   }
 }
